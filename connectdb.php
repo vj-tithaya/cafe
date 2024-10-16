@@ -1,11 +1,11 @@
+<meta charset="utf-8">
 <?php
-        $host = "localhost" ;
-		 $usr = "root";
-		 $pwd ="";
-		 $db = "cafeshop";
+$host = "localhost";
+$usr = "root";
+$pwd = "";
+$dbName = "cafeshop";
 
-
-		 $conn = mysqli_connect($host ,$usr,$pwd) or die("เชื่อมต่อฐานข้อมูลไม่ได้");
-		  mysqli_select_db($conn,$db) or die ("เลือกฐานข้อมูลไม่ได้");
-		  mysqli_query($conn,"SET NAMES utf8");
+$conn = mysqli_connect($host, $usr, $pwd) or die ("เชื่อมต่อฐานข้อมูลไม่ได้") ;
+mysqli_select_db($conn, $dbName) ;
+mysqli_query($conn, "set names utf8");
 ?>

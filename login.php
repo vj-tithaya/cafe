@@ -1,3 +1,8 @@
+<?php
+		session_start();
+		include_once("../carousel/connectdb.php");
+?>
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head><script src="../assets/js/color-modes.js"></script>
@@ -7,9 +12,9 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.122.0">
-    <title>Carousel Template · Bootstrap v5.3</title>
+    <title>Admin - Cafe</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
     
 
@@ -98,9 +103,9 @@
 
     
     <!-- Custom styles for this template -->
-    <link href="carousel.css" rel="stylesheet">
+    <link href="sign-in.css" rel="stylesheet">
   </head>
-  <body>
+  <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -152,129 +157,55 @@
       </ul>
     </div>
 
-<header data-bs-theme="dark">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Cafe A-plus</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">หน้าหลัก</a>
-          </li>
-          <li class="nav-item">
-          <a class="nav-link" href="view_order.php">คำสั่งซื้อ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="basket.php">ตะกร้าสินค้า</a>
-          </li>
-        </ul>
-        <div class="d-flex align-items-center justify-content-center">
-          <form class="d-flex me-2" role="search" action="index.php" method="get">
-    <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="kw" style="width: 500px; height: 40px;">
-    <button class="btn btn-outline-success" type="submit" style="height: 40px;">Search</button>
-</form>
-
-          <div class="dropdown">
-              <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="https://png.pngtree.com/png-vector/20231229/ourlarge/pngtree-draw-cute-cup-of-coffee-with-little-heart-for-valentine-png-image_11311154.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                  <strong>Admin</strong>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                  <li><a class="dropdown-item" href="login.php">login</a></li>
-              </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<main>
-
-<?php
-	include("connectdb.php");
-?>
-<!doctype html>
-<html>
-<link href="bootstrap.css" rel="stylesheet" type="text/css">
-<head>
-<meta charset="utf-8">
-<title>รายการสินค้า</title>
-</head>
-
-<body>
-<div style="text-align: center;">
-<h2>รายการสินค้าทั้งหมด</h2>
-<p style="text-align: center;">
-</p>
-</div>
-
-<hr>
-
-<!-- แสดงหมวดหมู่สินค้า -->
-<div style="text-align: center; margin: 20px 0;">
-<?php
-	$sql2 = "select  *  from category ";
-	$rs2 = mysqli_query($conn, $sql2) ;
-	while ($data2 = mysqli_fetch_array($rs2, MYSQLI_BOTH)) {
-?>
-
-<a href="index.php?pt=<?=$data2['c_id'];?>" class="btn btn-info"><?=$data2['c_name'];?></a> | 
-
-<?php } ?>
-</div>
-
-<hr>
-
-<?php
-	@$kw = $_POST['kw'] ;
-	@$pt = $_GET['pt'] ;
-	
-	if (isset($_GET['pt'])) {
-		$s = "and (c_id = '$pt')"; 
-	} else {
-		$s = "";	
-	}
-	
-	$sql = "select * from product where ( p_name like '%$kw%' or p_detail like '%$kw%' ) $s ";
-	$rs = mysqli_query($conn, $sql) ;
-	$i = 0;
-	while ($data = mysqli_fetch_array($rs, MYSQLI_BOTH)) {
-		$i++;
-		if( ($i % 3) == 1) {
-			echo "<div class='row' align='center' style='width:100%;'>";
-		}
-?>
- 
- <!-- แสดงผลสินค้าทั้งหมด -->
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <img src="images/<?= $data['p_id'] . '.' . $data['p_ext']; ?>" width="200">
-      <div class="caption">
-        <h4><?=$data['p_name'];?></h4>
-        <h4><?=number_format($data['p_price'],0);?> บาท</h4>
-        <p><a href="basket.php?id=<?=$data['p_id'];?>" class="btn btn-info" role="button">หยิบลงตะกร้า</a> 
-        </p>
-      </div>
-    </div>
-  </div>
-
-<?php 
-		if ( ($i % 3 ) == 0){
-			echo "</div>";	
-		}
-	} // end while
-
-	mysqli_close($conn);
-?>
-
-</body>
-</html>
     
+<main class="form-signin w-100 m-auto">
+  <form method="post" action="">
+    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Admin Cafe</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" name="ausername" placeholder="Username" autofocus required>
+      <label for="floatingInput">Username</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" name="apassword" placeholder="Password" required>
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <div class="form-check text-start my-3">
+      <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Remember me
+      </label>
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit" name="Submit">Sign in</button>
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+  </form>
+</main>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+<?php
+if(isset($_POST['Submit'])){
+		$sql = "SELECT * FROM `admin` WHERE `a_username` = '{$_POST['ausername']}' AND  `a_password` = '".md5($_POST['apassword'])."' " ;
+		$rs = mysqli_query($conn, $sql);
+		$num = mysqli_num_rows($rs);
+		
+		if ($num > 0){
+				$data = mysqli_fetch_array($rs);
+				$_SESSION['aid'] = $data['a_id'] ;
+				$_SESSION['aname'] = $data['a_name'] ;
+				echo "<script>";
+				echo "window.location='../album/index.php';";
+				echo "</script>";
+			} else {
+				echo "<script>";
+				echo "alert('Username หรือ Password ไม่ถูกต้อง');";
+				echo "</script>";
+				exit;
+			}
+	}
+?>
+
 
     </body>
 </html>

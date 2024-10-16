@@ -1,39 +1,39 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>รายละเอียดคำสั่งซื้อ</title>
-    <style>
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            margin: 20px auto;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .container {
-            width: 90%;
-            margin: 0 auto;
-        }
-        .back-link {
-            margin: 20px;
-            display: block;
-        }
-    </style>
+<meta charset="utf-8">
+<title>รายละเอียดคำสั่งซื้อ</title>
+<style>
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 20px auto;
+    }
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .back-link {
+        margin: 20px;
+        display: block;
+    }
+</style>
 </head>
 
 <body>
 <div class="container">
-    <h1>รายการสั่งซื้อ</h1>
-    <a href="index.php" class="back-link">← กลับไปยังหน้าหลัก</a>
+    <h1>รายละเอียดคำสั่งซื้อ</h1>
+    <a href="index.php" style="margin-top: 20px; padding: 10px; background-color: #2196F3; color: white; text-decoration: none; border-radius: 5px; display: inline-block;">กลับไปที่หน้าหลัก</a>
     
     <?php
     include("connectdb.php");
@@ -49,31 +49,8 @@
         if (mysqli_num_rows($result_order) == 1) {
             $order = mysqli_fetch_assoc($result_order);
             ?>
-            <h2>ข้อมูลคำสั่งซื้อ</h2>
-            <table>
-                <tr>
-                    <th>เลขที่คำสั่งซื้อ</th>
-                    <td><?php echo htmlspecialchars($order['id']); ?></td>
-                </tr>
-                <tr>
-                    <th>ลูกค้า</th>
-                    <td><?php echo htmlspecialchars($order['customer_name']); ?></td>
-                </tr>
-                <tr>
-                    <th>หมายเลขโต๊ะ</th>
-                    <td><?php echo htmlspecialchars($order['table_number']); ?></td>
-                </tr>
-                <tr>
-                    <th>ราคารวม</th>
-                    <td><?php echo number_format($order['total'], 2); ?> บาท</td>
-                </tr>
-                <tr>
-                    <th>วันเวลาสั่งซื้อ</th>
-                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
-                </tr>
-            </table>
-
-            <h2>รายละเอียดคำสั่งซื้อ</h2>
+       
+            <h2>รายการสินค้าในคำสั่งซื้อ</h2>
             <table>
                 <tr>
                     <th>ลำดับ</th>
@@ -109,8 +86,9 @@
                     <td>&nbsp;</td>
                     <td>รวมทั้งสิ้น</td>
                     <td><?php echo number_format($order['total'], 2); ?> บาท</td>
-                </tr>
+               </tr>
             </table>
+	<a href="payment.php?order_id=<?php echo $order_id; ?>" style="padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">ชำระเงิน</a>
             <?php
         } else {
             echo "<p>ไม่พบคำสั่งซื้อที่เลือก กรุณาตรวจสอบใหม่อีกครั้ง</p>";
